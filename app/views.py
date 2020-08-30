@@ -139,6 +139,225 @@ def index(path):
     except:
         
         return render_template( 'pages/error-404.html' )
+# POS Administration Routes
+
+@app.route('/pos-administration/receipt-sales.html', methods = ['GET'])
+def pos_administator_receipt_sales():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/pos-administration/receipt-sales' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/pos-administration/stock-sales.html', methods = ['GET'])
+def pos_administator_stock_sales():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/pos-administration/stock-sales' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/pos-administration/reports.html', methods = ['GET'])
+def pos_administator_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/pos-administration/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+# Inventory Routes
+
+@app.route('/inventory/enquiries.html', methods = ['GET'])
+def inventory_enquiries():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/inventory/enquiries' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/inventory/reports.html', methods = ['GET'])
+def inventory_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/inventory/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+# Supplier Routes
+
+@app.route('/supplier/enquiries.html', methods = ['GET'])
+def supplier_enquiries():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/supplier/enquiries' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/supplier/reports.html', methods = ['GET'])
+def supplier_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/supplier/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+# Customer Routes
+
+@app.route('/customer/enquiries.html', methods = ['GET'])
+def customer_enquiries():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/customer/enquiries' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/customer/reports.html', methods = ['GET'])
+def customer_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/customer/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+# Banking Routes
+
+@app.route('/banking/enquiries.html', methods = ['GET'])
+def banking_enquiries():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/banking/enquiries' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/banking/reports.html', methods = ['GET'])
+def banking_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/banking/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+# General Legder Routes
+
+@app.route('/general-ledger/enquiries.html', methods = ['GET'])
+def general_legder_enquiries():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/general-ledger/enquiries' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
+
+@app.route('/general-ledger/reports.html', methods = ['GET'])
+def general_legder_reports():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    content = None
+
+    try:
+
+        return render_template( 'pages/general-ledger/reports' )
+    
+    except:
+        
+        return render_template( 'pages/error-404.html' )
 
 # Return sitemap 
 @app.route('/sitemap.xml')
