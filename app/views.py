@@ -151,7 +151,7 @@ def pos_administator_receipt_sales():
 
     try:
 
-        return render_template( 'pages/pos-administration/receipt-sales' )
+        return render_template( 'pages/pos-administration/receipt-sales.html' )
     
     except:
         
@@ -167,7 +167,7 @@ def pos_administator_stock_sales():
 
     try:
 
-        return render_template( 'pages/pos-administration/stock-sales' )
+        return render_template( 'pages/pos-administration/stock-sales.html' )
     
     except:
         
@@ -183,7 +183,7 @@ def pos_administator_reports():
 
     try:
 
-        return render_template( 'pages/pos-administration/reports' )
+        return render_template( 'pages/pos-administration/reports.html' )
     
     except:
         
@@ -201,7 +201,7 @@ def inventory_enquiries():
 
     try:
 
-        return render_template( 'pages/inventory/enquiries' )
+        return render_template( 'pages/inventory/enquiries.html' )
     
     except:
         
@@ -217,7 +217,7 @@ def inventory_reports():
 
     try:
 
-        return render_template( 'pages/inventory/reports' )
+        return render_template( 'pages/inventory/reports.html' )
     
     except:
         
@@ -235,7 +235,7 @@ def supplier_enquiries():
 
     try:
 
-        return render_template( 'pages/supplier/enquiries' )
+        return render_template( 'pages/supplier/enquiries.html' )
     
     except:
         
@@ -251,7 +251,7 @@ def supplier_reports():
 
     try:
 
-        return render_template( 'pages/supplier/reports' )
+        return render_template( 'pages/supplier/reports.html' )
     
     except:
         
@@ -269,7 +269,7 @@ def customer_enquiries():
 
     try:
 
-        return render_template( 'pages/customer/enquiries' )
+        return render_template( 'pages/customer/enquiries.html' )
     
     except:
         
@@ -285,7 +285,7 @@ def customer_reports():
 
     try:
 
-        return render_template( 'pages/customer/reports' )
+        return render_template( 'pages/customer/reports.html' )
     
     except:
         
@@ -303,7 +303,7 @@ def banking_enquiries():
 
     try:
 
-        return render_template( 'pages/banking/enquiries' )
+        return render_template( 'pages/banking/enquiries.html' )
     
     except:
         
@@ -319,7 +319,7 @@ def banking_reports():
 
     try:
 
-        return render_template( 'pages/banking/reports' )
+        return render_template( 'pages/banking/reports.html' )
     
     except:
         
@@ -337,7 +337,7 @@ def general_legder_enquiries():
 
     try:
 
-        return render_template( 'pages/general-ledger/enquiries' )
+        return render_template( 'pages/general-ledger/enquiries.html' )
     
     except:
         
@@ -353,7 +353,7 @@ def general_legder_reports():
 
     try:
 
-        return render_template( 'pages/general-ledger/reports' )
+        return render_template( 'pages/general-ledger/reports.html' )
     
     except:
         
