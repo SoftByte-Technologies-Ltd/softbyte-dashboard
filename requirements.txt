@@ -6,6 +6,4 @@ flask_sqlalchemy
 flask_migrate
 flask_bcrypt
 email_validator
-symplejson
-PyMySQL
 gunicorn
