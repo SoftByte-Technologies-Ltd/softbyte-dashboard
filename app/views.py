@@ -139,6 +139,7 @@ def index(path):
     except:
         
         return render_template( 'pages/error-404.html' )
+
 # POS Administration Routes
 
 @app.route('/pos-administration/receipt-sales.html', methods = ['GET'])
@@ -235,7 +236,7 @@ def supplier_enquiries():
 
     try:
 
-        return render_template( 'pages/supplier/enquiries.html' )
+        return render_template( 'pages/suppliers/enquiries.html' )
     
     except:
         
@@ -251,7 +252,7 @@ def supplier_reports():
 
     try:
 
-        return render_template( 'pages/supplier/reports.html' )
+        return render_template( 'pages/suppliers/reports.html' )
     
     except:
         
@@ -269,7 +270,7 @@ def customer_enquiries():
 
     try:
 
-        return render_template( 'pages/customer/enquiries.html' )
+        return render_template( 'pages/customers/enquiries.html' )
     
     except:
         
@@ -285,7 +286,7 @@ def customer_reports():
 
     try:
 
-        return render_template( 'pages/customer/reports.html' )
+        return render_template( 'pages/customers/reports.html' )
     
     except:
         
