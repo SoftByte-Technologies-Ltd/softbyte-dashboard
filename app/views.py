@@ -398,7 +398,7 @@ def GetShift():
         conn = connection()
         c = conn.cursor()
         qry="select s.*,t.till_no from shift s,till t where t.till_id=s.till_id and s.till_id=(select till_id from till where till_no = '" + itill + "' limit 1) and s.branch_id=" + iBranchID +" and s.shift_complete='N' order by s.sdate"
-        return qty
+        return qry
         c.execute(qry)
         data = c.fetchall()
 
