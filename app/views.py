@@ -410,7 +410,7 @@ def GetShift():
         return json.dumps({'result':myList,"error":False}, use_decimal=True)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
-
+    
 @app.route('/GetRoutes', methods= ['POST','GET'])
 def GetRoutes():
     if request.method == "POST":
