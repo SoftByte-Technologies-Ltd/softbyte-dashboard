@@ -25,6 +25,7 @@ jobs:
         run: |
           cd /var/www/python/current
           git pull
+          su - root
           sudo systemctl reload nginx
           sudo service restart softbytedashboard
           
