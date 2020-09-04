@@ -24,7 +24,7 @@ jobs:
       - name: Working directory
         run: |
           cd /var/www/python
-          pwd
+          ls -a
 #       - name: Refresh pythion project
 #         run: |
 #           sudo systemctl reload nginx
