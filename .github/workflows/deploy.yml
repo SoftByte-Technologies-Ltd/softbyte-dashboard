@@ -25,7 +25,6 @@ jobs:
         run: |
           cd /var/www/python/current
           git pull          
-          nginx -s reload
 #       - name: Refresh pythion project
 #         run: |
 #           sudo systemctl reload nginx
