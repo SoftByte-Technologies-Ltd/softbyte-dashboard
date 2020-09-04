@@ -397,8 +397,7 @@ def GetShift():
         itill = request.form['till']
         conn = connection()
         c = conn.cursor()
-        qry="select s.*,t.till_no from shift s,till t where t.till_id=s.till_id and s.till_id=(select till_id from till where till_no = '" + itill + "' limit 1) and s.branch_id=" + iBranchID +" and s.shift_complete='N' order by s.sdate"
-        return qry
+        qry="select s.*,t.till_no from shift s,till t where t.till_id=s.till_id and t.till_no='" + itill + "' and s.branch_id=" + iBranchID +" and s.shift_complete='N' order by s.sdate"
         c.execute(qry)
         data = c.fetchall()
 
@@ -840,19 +839,12 @@ def SetShift():
             shift_id=str(uuid.uuid4())
 
             qry="INSERT INTO shift (shift_id,shift_day,shift_complete,sdate,shift_description,branch_id,till_id,updated) VALUES "
-            qry=qry + "('"+ shift_id +"', 'Y', 'N', '"+ str(sdate) +"', '" + shift_description + "',"+branch_id+",'"+till_id+"','N')"
+            qry=qry + "('"+ shift_id +"', 'Y', 'N', '"+ str(sdate) +"', '" + shift_description + "',"+branch_id+",(select till_id from till where till_no= '"+till_id+"' and branch_id="+branch_id+" limit 1),'N')"
         else:
             qry="UPDATE shift set shift_complete='"+shift_complete+"',updated='N' WHERE shift_id='"+ shift_id +"';"
 
         c.execute(qry)
         conn.commit()
-
-        conn.close()
-        myList = {"shift_id" : shift_id}
-
-        return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
-    else:
-        return json.dumps({'result':"Invalid method",'error':True})
 
 @app.route('/SetCustomer', methods= ['POST','GET'])
 def SetCustomer():
