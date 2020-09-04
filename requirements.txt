@@ -9,3 +9,5 @@ email_validator
 symplejson
 PyMySQL
 gunicorn
+pymysql
+simplejson
