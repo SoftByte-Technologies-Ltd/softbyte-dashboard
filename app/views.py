@@ -1185,7 +1185,8 @@ def SetBillItems():
 
         return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
-
+        return json.dumps({'result':"Invalid method",'error':True})
+    
 @app.route('/SetTripOrder', methods= ['POST','GET'])
 def SetTripOrder():
     if request.method == "POST":
