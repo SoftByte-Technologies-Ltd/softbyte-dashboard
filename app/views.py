@@ -1141,17 +1141,17 @@ def SetBillItems():
         data = c.fetchall()
 
         for r in data:
-            if r["location_product_vattable"]=="Y":
-                if r["location_product_catlv"]=="Y":
-                    vat1=float(sPrice)*(16/118)
-                    vat2=float(sPrice)*(2/118)
+            if r[12]=="Y":
+                if r[15]=="Y":
+                    vat1=round(float(sPrice)*(16/118),2)
+                    vat2=round(float(sPrice)*(2/118),2)
                 else:
-                    vat1=float(sPrice)*(16/116)
+                    vat1=round(float(sPrice)*(16/116),2)
                     vat2=0
             else:
-                if r["location_product_catlv"]=="Y":
+                if r[15]=="Y":
                     vat1=0
-                    vat2=float(sPrice)*(2/102)
+                    vat2=round(float(sPrice)*(2/102),2)
                 else:
                     vat1=0
                     vat2=0
@@ -1185,7 +1185,6 @@ def SetBillItems():
 
         return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
-        return json.dumps({'result':"Invalid method",'error':True})
 
 @app.route('/SetTripOrder', methods= ['POST','GET'])
 def SetTripOrder():
