@@ -805,6 +805,50 @@ def GetBillItems():
     else:
         return json.dumps({'result':"Invalid method",'error':True})
 
+@app.route('/SetCustomerTrans', methods= ['POST','GET'])
+def SetCustomerTrans():
+    if request.method == "POST":
+        customer_id = request.form['customer_id']
+        transaction_ref = request.form['transaction_ref']
+        trans_type_id = request.form['trans_type_id']
+        amount = request.form['amount']
+        comment = request.form['comment']
+        staff_id = request.form['staff_id']
+        discount = request.form['discount']
+        transaction_vat = request.form['transaction_vat']
+        branch_id = request.form['branch_id']
+        trans_by = request.form['trans_by']
+        trip_id = request.form['trip_id']
+
+        if float(amount) >0:
+            customer_total_credit = float(amount)
+            customer_total_debit = 0
+        else:
+            customer_total_credit = 0
+            customer_total_debit = float(amount)
+
+        conn = connection()
+        c = conn.cursor()
+        qry = "update customer set customer_running_bal=customer_running_bal+%d, customer_total_credit=customer_total_credit+%d, customer_total_debit=customer_total_debit+%d,updated='N' where customer_id='%s'" % (float(amount),  customer_total_credit, customer_total_debit,customer_id)
+
+        c.execute(qry)
+        conn.commit()
+
+        qry ="insert into customer_trans (customer_trans_id,transaction_ref,transaction_date,transaction_amount,transaction_approved,customer_id,trans_type_id,transaction_comment,running_bal,trip_id,updated,branch_id,updated_by,updated_on,created_by,created_on,trans_by,transaction_vat,discount) "
+        qry = qry + "values (uuid(),'%s',now(),%d,'1','%s','%s',(select customer_running_bal from customer where customer_id= '%s'),'%s','%s','N','%s','%s',now(),'%s',now(),'%s',%d,%d)"
+        qry = qry  % (transaction_ref,abs(float(amount)),customer_id,trans_type_id,comment,customer_id,trip_id,branch_id,staff_id,staff_id,trans_by,float(transaction_vat),float(discount))
+
+        c.execute(qry)
+        conn.commit()
+
+
+        conn.close()
+        myList = {"customer_id" : customer_id}
+
+        return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+        
 @app.route('/GetCustomer', methods= ['POST','GET'])
 def GetCustomer():
     if request.method == "POST":
