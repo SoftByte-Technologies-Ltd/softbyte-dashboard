@@ -24,4 +24,5 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current
-          ./deploy      
+          chmod +x ./deploy      
+          sh ./deploy      
