@@ -1,6 +1,6 @@
     {
     "name": "softbyte-dashboard",
-    "version": "1.0.4g",
+    "version": "1.0.5",
     "description": "POS Online dashboard.",
     "main": "gruntfile.js",
     "devDependencies": {
