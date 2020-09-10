@@ -926,11 +926,11 @@ def SetCustomerTrans():
         customer_id = request.form['customer_id']
         transaction_ref = request.form['transaction_ref']
         trans_type_id = request.form['trans_type_id']
-        amount = request.form['amount']
+        amount = float(request.form['amount'])
         comment = request.form['comment']
         staff_id = request.form['staff_id']
-        discount = request.form['discount']
-        transaction_vat = request.form['transaction_vat']
+        discount = float(request.form['discount'])
+        transaction_vat = float(request.form['transaction_vat'])
         branch_id = request.form['branch_id']
         trans_by = request.form['trans_by']
         trip_id = request.form['trip_id']
@@ -950,7 +950,7 @@ def SetCustomerTrans():
         conn.commit()
 
         qry ="insert into customer_trans (customer_trans_id,transaction_ref,transaction_date,transaction_amount,transaction_approved,customer_id,trans_type_id,transaction_comment,running_bal,trip_id,updated,branch_id,updated_by,updated_on,created_by,created_on,trans_by,transaction_vat,discount) "
-        qry = qry + "values (uuid(),'%s',now(),%d,'1','%s','%s',(select customer_running_bal from customer where customer_id= '%s'),'%s','%s','N','%s','%s',now(),'%s',now(),'%s',%d,%d)"
+        qry = qry + "values (uuid(),'%s',now(),%d,'1','%s','%s',(select customer_running_bal from customer where customer_id= '%s'),'%s','%s','N',%s,'%s',now(),'%s',now(),'%s',%d,%d)"
         qry = qry  % (transaction_ref,abs(float(amount)),customer_id,trans_type_id,comment,customer_id,trip_id,branch_id,staff_id,staff_id,trans_by,float(transaction_vat),float(discount))
 
         c.execute(qry)
