@@ -21,7 +21,7 @@ import uuid
 
 # App modules
 from app        import app, lm, db, bc
-from app.models import User
+from app.models import User, Branch, Bank, BankTransaction, Customer, CustomerTransaction, Supplier, SupplierTransaction
 from app.forms  import LoginForm, RegisterForm
 
 # provide login manager with load_user callback
@@ -275,7 +275,6 @@ def customer_enquiries():
     except:
         
         return render_template( 'pages/error-404.html' )
-
 @app.route('/customer/reports.html', methods = ['GET'])
 def customer_reports():
 
@@ -309,6 +308,23 @@ def banking_enquiries():
     except:
         
         return render_template( 'pages/error-404.html' )
+
+@app.route('/api/banking/enquiries', methods = ['GET'])
+def GetBankingEnquiries():
+    if request.method == "GET":
+        conn = connection()
+        c = conn.cursor()
+        qry="select * from bank_trans" 
+        c.execute(qry)
+
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
+
+        conn.close()
+        return json.dumps({'result':r,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
 
 @app.route('/banking/reports.html', methods = ['GET'])
 def banking_reports():
@@ -365,6 +381,105 @@ def general_legder_reports():
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
 
+# Python Json API
+
+# Branch routes
+@app.route('/api/branches', methods = ['GET'])
+def index_branches(): 
+    if request.method == "GET":
+        branches = [branch.serialize() for branch in Branch.query.all()]
+
+        return json.dumps({'data': branches,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+# Bank routes
+@app.route('/api/branches/<int:id>/banks', methods = ['GET'])
+def index_banks(id): 
+    if request.method == "GET":
+        banks = [bank.serialize() for bank in Bank.query.filter_by(bank_id = id).all()]
+
+        return json.dumps({'data': banks,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+# Bank routes
+@app.route('/api/branches/<int:id>/customers', methods = ['GET'])
+def index_customers(id): 
+    if request.method == "GET":
+        customers = [customer.serialize() for customer in Customer.query.filter_by(bank_id = id).all()]
+
+        return json.dumps({'data': customers,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+# Supplier routes
+@app.route('/api/branches/<int:id>/suppliers', methods = ['GET'])
+def index_suppliers(id): 
+    if request.method == "GET":
+        suppliers = [supplier.serialize() for supplier in Supplier.query.filter_by(bank_id = id).all()]
+
+        return json.dumps({'data': suppliers,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+
+#  Customer Transaction Routes
+@app.route('/api/branches/<int:id>/customer-transanctions', methods = ['GET'])
+def index_customer_transactions(id):
+    if request.method == "GET":
+        query = CustomerTransaction.query
+        # .options(db.joinload(CustomerTransaction.customer))
+
+        if id:
+            query.filter_by(branch_id = id)
+
+        if 'customer_id' in request.args:
+             query.filter_by(customer_id = request.args['customer_id'])
+
+        customerTransactions = [ customerTransaction.serialize() for customerTransaction in query.all()]
+
+        return json.dumps({'data': customerTransactions, "error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+#  Bank Transaction Routes
+@app.route('/api/branches/<int:id>/bank-transanctions', methods = ['GET'])
+def index_bank_transactions(id):
+    if request.method == "GET":
+        query = BankTransaction.query
+        # .options(db.joinload(BankTransaction.bank))
+
+        if id:
+            query.filter_by(branch_id = id)
+
+        if 'bank_id' in request.args:
+             query.filter_by(bank_id = request.args['bank_id'])
+
+        bankTransactions = [ bankTransaction.serialize() for bankTransaction in query.all()]
+
+        return json.dumps({'data': bankTransactions, "error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+#  Supplier Transaction Routes
+@app.route('/api/branches/<int:id>/supplier-transanctions', methods = ['GET'])
+def index_supplier_transactions(id):
+    if request.method == "GET":
+        query = SupplierTransaction.query
+        # .options(db.joinload(SupplierTransaction.supplier))
+
+        if id:
+            query.filter_by(branch_id = id)
+
+        if 'supplier_id' in request.args:
+             query.filter_by(supplier_id = request.args['supplier_id'])
+
+        supplierTransactions = [ supplierTransaction.serialize() for supplierTransaction in query.all()]
+
+        return json.dumps({'data': supplierTransactions, "error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
 
 # API Routes
 # @app.route('/')
