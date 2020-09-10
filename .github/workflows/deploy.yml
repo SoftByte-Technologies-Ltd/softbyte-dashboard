@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Python CI/CD
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -24,5 +24,6 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current
+          git pull
           chmod +x ./deploy.sh      
           sh ./deploy.sh      
