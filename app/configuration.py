@@ -16,4 +16,4 @@ class Config():
 	
 	SQLALCHEMY_TRACK_MODIFICATIONS 	= False
 
-	SQLALCHEMY_DATABASE_URI = 'mysql://root:rootxFFD8@localhost/sbpos'
+	SQLALCHEMY_DATABASE_URI = 'mysql://root:root08xFFD8@localhost/sbpos'
