@@ -1,10 +1,10 @@
 #!/bin/bash
-git pull --force
+# git pull --force
 
 # Reinstall dependenceies
-source env/bin/activate
-pip3 install -r requirements.txt
-deactivate
+# source env/bin/activate
+# pip3 install -r requirements.txt
+# deactivate
 
 # Restart services
 systemctl status softbytedashboard  | grep 'active (running)' > /dev/null 2>&1
