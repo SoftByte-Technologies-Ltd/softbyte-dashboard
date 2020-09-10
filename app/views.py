@@ -950,7 +950,7 @@ def SetCustomerTrans():
         conn.commit()
 
         qry ="insert into customer_trans (customer_trans_id,transaction_ref,transaction_date,transaction_amount,transaction_approved,customer_id,trans_type_id,transaction_comment,running_bal,trip_id,updated,branch_id,updated_by,updated_on,created_by,created_on,trans_by,transaction_vat,discount) "
-        qry = qry + "values (uuid(),'%s',now(),%d,'1','%s','%s',(select customer_running_bal from customer where customer_id= '%s'),'%s','%s','N',%s,'%s',now(),'%s',now(),'%s',%d,%d)"
+        qry = qry + "values (uuid(),'%s',now(),%d,'1','%s','%s','%s',(select customer_running_bal from customer where customer_id='%s'),'%s','N','%s','%s',now(),'%s',now(),'%s',%d,%d)"
         qry = qry  % (transaction_ref,abs(float(amount)),customer_id,trans_type_id,comment,customer_id,trip_id,branch_id,staff_id,staff_id,trans_by,float(transaction_vat),float(discount))
 
         c.execute(qry)
@@ -963,7 +963,7 @@ def SetCustomerTrans():
         return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
-        
+              
 @app.route('/GetCustomer', methods= ['POST','GET'])
 def GetCustomer():
     if request.method == "POST":
