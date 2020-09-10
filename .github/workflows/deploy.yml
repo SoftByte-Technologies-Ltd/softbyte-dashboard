@@ -25,4 +25,5 @@ jobs:
         run: |
           cd /var/www/python/current
           git reset --hard 
+          git clean -f
           sh ./deploy.sh      
