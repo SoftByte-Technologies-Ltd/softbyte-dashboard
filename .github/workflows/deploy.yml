@@ -24,6 +24,6 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current
-          git pull
+          git stash
           chmod +x ./deploy.sh      
           sh ./deploy.sh      
