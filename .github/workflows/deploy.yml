@@ -25,5 +25,9 @@ jobs:
         run: |
           cd /var/www/python/current
           git stash
+          git pull --force
+          source env/bin/activate
+          pip3 install -r requirements.txt
+          deactivate
           chmod +x ./deploy.sh      
           sh ./deploy.sh      
