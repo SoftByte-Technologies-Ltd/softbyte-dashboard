@@ -24,10 +24,5 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current
-          git stash
-          git pull --force
-          source env/bin/activate
-          pip3 install -r requirements.txt
-          deactivate
-          chmod +x ./deploy.sh      
+          git reset --hard 
           sh ./deploy.sh      
