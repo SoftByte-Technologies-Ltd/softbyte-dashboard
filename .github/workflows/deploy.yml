@@ -23,9 +23,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update and refresh project
         run: |
-          cd /var/www/python/current  
-          chmod +x ./deploy.sh
-          sh ./deploy.sh
+          cd /var/www/python/current 
+          git update-index --chmod +x ./deploy.sh
           touch .env
           echo ${{ secrets.PYTHON_DOT_ENV }} >> .env
                 
