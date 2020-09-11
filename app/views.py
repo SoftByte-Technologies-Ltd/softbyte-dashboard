@@ -1328,7 +1328,7 @@ def SetBillItems():
             qry=qry + "confirmed, batch_id, updated,packaging_runbal,packaging,created_by,created_on,updated_by,updated_on,sprice,lpono,tran_discount,grn_no,ln,track_no) VALUES "
             qry=qry + "(uuid(), now(), '', " + sBranchId + ", 1, '" + r[2]+ "', "+ sQty +", "+ sQty +", '', "
             qry=qry + "'', '" + r[1]+ "', null, 'Y', 'N', null, '" + r[6]+ "', '', '', '', 0, " + str(r[3])+ ", "
-            qry=qry + "'Y', null, 'N',0,0,(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),"+ sPrice +",'',0,'',"+str(index1)+",'')"
+            qry=qry + "'Y', null, 'N',0,0,(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),"+ sPrice +",'',0,0,"+str(index1)+",'')"
 
             c.execute(qry)
             conn.commit()
