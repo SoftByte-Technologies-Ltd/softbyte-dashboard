@@ -16,5 +16,5 @@ class Config():
 	
 	SQLALCHEMY_TRACK_MODIFICATIONS 	= False
 
-	SQLALCHEMY_DATABASE_URI = os.getenv('DB_CONNECTION') + "://" + os.getenv('DB_USERNAME') + ":" + os.getenv('DB_PASSWORD') + "@" + os.getenv('DB_HOST') + "/" + os.getenv('DB_DATABASE')
+	SQLALCHEMY_DATABASE_URI =  '{connection}://{username}:{password}@{host}/{database}'.format(connection=os.getenv('DB_CONNECTION'), username=os.getenv('DB_USERNAME'), password=os.getenv('DB_PASSWORD'), host=os.getenv('DB_HOST'), database=os.getenv('DB_DATABASE'))
 
