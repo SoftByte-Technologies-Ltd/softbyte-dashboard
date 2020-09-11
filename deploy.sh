@@ -9,9 +9,9 @@ git reset --hard origin/master
 echo "Codebase updated!"
 
 # Install dependenceies
-source env/bin/activate
+# source env/bin/activate
 pip3 install -r requirements.txt
-deactivate
+# deactivate
 echo "Install dependencies!"
 
 # Restart services
