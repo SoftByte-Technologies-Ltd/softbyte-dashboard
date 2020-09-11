@@ -24,7 +24,8 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current 
-          sh ./deploy.sh
+          chmode +x ./deploy.sh
+          ./deploy.sh
           touch .env
           echo ${{ secrets.PYTHON_DOT_ENV }} >> .env
                 
