@@ -4,8 +4,8 @@ set -e
 echo "Deploying application ..."
 
 # Update codebase
-                git fetch origin master
-                git reset --hard origin/master
+git fetch origin master
+git reset --hard origin/master
 echo "Codebase updated!"
 
 # Install dependenceies

@@ -24,4 +24,6 @@ jobs:
       - name: Update and refresh project
         run: |
           cd /var/www/python/current  
-          sh ./deploy.sh      
+          git fetch origin master
+          git reset --hard origin/master
+          pip3 install -r requirements.txt  
