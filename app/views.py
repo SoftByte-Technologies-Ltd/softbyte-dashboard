@@ -1491,7 +1491,7 @@ def get_queryx(sql):
 
             conn.close()
             #return json.dumps({'result':str(data),"error":False}, use_decimal=True)
-            return str(r)
+            return json.dumps(r, use_decimal=True, indent=4, sort_keys=True, default=str)
         except Exception as e:
             # flash(e)
             error = str(e)
