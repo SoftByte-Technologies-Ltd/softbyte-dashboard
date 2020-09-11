@@ -23,11 +23,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update and refresh project
         run: |
-<<<<<<< HEAD
-          cd /var/www/python/current
-          git reset --hard 
-          git clean -f
-=======
           cd /var/www/python/current  
->>>>>>> release/1.2.1
           sh ./deploy.sh      
