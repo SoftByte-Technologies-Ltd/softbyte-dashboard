@@ -3,14 +3,7 @@ set -e
 
 echo "Deploying application ..."
 
-# Update codebase
-                git fetch origin master
-                git reset --hard origin/master
-echo "Codebase updated!"
 
-# Install dependenceies
-pip3 install -r requirements.txt
-echo "Install dependencies!"
 
 # Restart services
 systemctl status softbytedashboard  | grep 'active (running)' > /dev/null 2>&1
