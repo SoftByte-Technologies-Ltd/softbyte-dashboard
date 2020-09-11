@@ -10,7 +10,7 @@ echo "Codebase updated!"
 
 # Install dependenceies
 # source env/bin/activate
-# pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 # deactivate
 echo "Install dependencies!"
 
