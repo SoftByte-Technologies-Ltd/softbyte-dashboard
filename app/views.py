@@ -1284,15 +1284,17 @@ def SetBillItems():
         conn = connection()
         c = conn.cursor()
 
-        qry="update location_stock set location_product_quantity=location_product_quantity-"+ sQty +" where location_product_id='" + sProductId + "'"
+        qry="update location_stock set updated='N',location_product_quantity=location_product_quantity-"+ sQty +" where location_product_id='" + sProductId + "'"
         c.execute(qry)
         conn.commit()
 
         qry="select * from location_stock where location_product_id='" + sProductId + "'"
         c.execute(qry)
         data = c.fetchall()
-
+        
+        index1 = 0 
         for r in data:
+            index1 += 1
             if r[12]=="Y":
                 if r[15]=="Y":
                     vat1=round(float(sPrice)*(16/118),2)
@@ -1308,7 +1310,7 @@ def SetBillItems():
                     vat1=0
                     vat2=0
 
-            qry="update pos_receipts set total_vat=total_vat+"+ str(vat1) +",total_cat_levy=total_cat_levy+"+ str(vat2) +" where receipt_id='"+sReceiptId+"'"
+            qry="update pos_receipts set updated='N',total_vat=total_vat+"+ str(vat1) +",total_cat_levy=total_cat_levy+"+ str(vat2) +" where receipt_id='"+sReceiptId+"'"
 
             c.execute(qry)
             conn.commit()
@@ -1323,10 +1325,10 @@ def SetBillItems():
 
             qry="INSERT INTO trans_file(trans_id, trans_date, trans_reference, branch_id, trans_type_id, uom_code, trans_quantity, trans_base_quantity, batch_no, "
             qry=qry + "trans_comment, Product_id, location_product_id, complete, cancelled, supplier_id, location_id, del_note, inv_no, lpo_no, cost_price, running_balance, "
-            qry=qry + "confirmed, batch_id, updated) VALUES "
+            qry=qry + "confirmed, batch_id, updated,packaging_runbal,packaging,created_by,created_on,updated_by,updated_on,sprice,lpo_no,lpono,tran_discount,grn_no,ln,batch_id,track_no) VALUES "
             qry=qry + "(uuid(), now(), '', " + sBranchId + ", 1, '" + r[2]+ "', "+ sQty +", "+ sQty +", '', "
             qry=qry + "'', '" + r[1]+ "', null, 'Y', 'N', null, '" + r[6]+ "', '', '', '', 0, " + str(r[3])+ ", "
-            qry=qry + "'Y', null, 'N')"
+            qry=qry + "'Y', null, 'N',0,0,"+sStaffId+",now(),"+sStaffId+",now(),"+ sPrice +",'','',0,'',"+str(index1)+",'','')"
 
             c.execute(qry)
             conn.commit()
