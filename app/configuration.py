@@ -15,6 +15,6 @@ class Config():
 	SECRET_KEY   = "77tgFCdrEEdv77554##@3" 
 	
 	SQLALCHEMY_TRACK_MODIFICATIONS 	= False
-	
-	SQLALCHEMY_DATABASE_URI = os.getenv('DB_CONNECTION') + '://' + os.getenv('DB_USERNAME') + ':' + os.getenv('DB_PASSWORD') + '@' + os.getenv('DB_HOST') + '/' + os.getenv('DB_DATABASE')
+
+	SQLALCHEMY_DATABASE_URI = os.getenv('DB_CONNECTION') + "://" + os.getenv('DB_USERNAME') + ":" + os.getenv('DB_PASSWORD') + "@" + os.getenv('DB_HOST') + "/" + os.getenv('DB_DATABASE')
 
