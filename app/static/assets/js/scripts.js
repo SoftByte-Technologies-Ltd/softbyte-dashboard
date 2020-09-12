@@ -31,11 +31,11 @@ $(document).ready(function() {
         "processing": true,
         "ajax": "/api/branches/122/bank-transanctions",
         "columns" : [
-            { "data" : 'transaction_date' },
-            { "data" : 'transaction_ref' },
-            { "data" : 'transaction_amount' },
-            { "data" : 'transaction_comment' },
-            { "data" : 'running_bal' },
+            { "data" : 'trans_date' },
+            { "data" : 'trans_ref' },
+            { "data" : 'trans_amount' },
+            { "data" : 'trans_comment' },
+            { "data" : 'trans_running_bal' },
         ]
     });
 
@@ -69,7 +69,7 @@ function append(parent, el) {
 
 const ul = document.getElementById('branches');
 const title = document.getElementById('branch-title');
-const url = 'http://localhost:5000/api/branches';
+const url = '/api/branches';
 axios(url)
 //.then((resp) => resp.json())
 .then(function(response) {

@@ -217,11 +217,11 @@ class BankTransaction(db.Model):
             "branch_id": self.branch_id,
             "bank_id": self.bank_id,            
             "bank_trans_id": self.bank_trans_id,            
-            "transaction_date": self.transaction_date,            
-            "transaction_ref": self.transaction_ref,            
-            "transaction_amount": self.transaction_amount,            
-            "transaction_comment": self.transaction_comment,            
-            "running_bal": self.running_bal,            
+            "trans_date": self.trans_date,            
+            "trans_ref": self.trans_ref,            
+            "trans_amount": self.trans_amount,            
+            "trans_comment": self.trans_comment,            
+            "trans_running_bal": self.trans_running_bal,            
         }
     
 # Customer Transaction model
