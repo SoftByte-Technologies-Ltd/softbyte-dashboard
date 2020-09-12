@@ -13,29 +13,14 @@
 							</div>
 							<div class="info">
 								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-									<span>
-										{{ current_user.user }}
-										<span class="user-level">
-											{{ current_user.email }}  
-										</span>
+									<span id="branch-title">
 										<span class="caret"></span>
 									</span>
 								</a>
 								<div class="clearfix"></div>
 
 								<div class="collapse in" id="collapseExample">
-									<ul class="nav">
-										<li>
-											<a href="#profile">
-												<span class="link-collapse">My Profile</span>
-											</a>
-										</li>
-										<li>
-											<a href={{ url_for('logout') }}>
-												<span class="link-collapse">Logout</span>
-											</a>
-										</li>
-									</ul>
+									<ul class="nav" id="branches"></ul>
 								</div>
 							</div>
 						</div>

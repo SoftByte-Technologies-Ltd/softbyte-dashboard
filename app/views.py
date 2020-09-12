@@ -397,7 +397,7 @@ def index_branches():
 @app.route('/api/branches/<int:id>/banks', methods = ['GET'])
 def index_banks(id): 
     if request.method == "GET":
-        banks = [bank.serialize() for bank in Bank.query.filter_by(bank_id = id).all()]
+        banks = [bank.serialize() for bank in Bank.query.filter_by(branch_id = id).all()]
 
         return json.dumps({'data': banks,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
@@ -407,7 +407,7 @@ def index_banks(id):
 @app.route('/api/branches/<int:id>/customers', methods = ['GET'])
 def index_customers(id): 
     if request.method == "GET":
-        customers = [customer.serialize() for customer in Customer.query.filter_by(bank_id = id).all()]
+        customers = [customer.serialize() for customer in Customer.query.filter_by(branch_id = id).all()]
 
         return json.dumps({'data': customers,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
@@ -417,7 +417,7 @@ def index_customers(id):
 @app.route('/api/branches/<int:id>/suppliers', methods = ['GET'])
 def index_suppliers(id): 
     if request.method == "GET":
-        suppliers = [supplier.serialize() for supplier in Supplier.query.filter_by(bank_id = id).all()]
+        suppliers = [supplier.serialize() for supplier in Supplier.query.filter_by(branch_id = id).all()]
 
         return json.dumps({'data': suppliers,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:

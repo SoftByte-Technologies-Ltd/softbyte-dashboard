@@ -42,8 +42,13 @@
                         <form action="" class="mb-4" id="find-customers-transactions">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <select name="customer_id" class="form-control" id="">
-                                    <option value="">Select a customer</option>
+                                <select 
+                                    name="customer_id" 
+                                    class="form-control"  
+                                    data-resource="customer" 
+                                    data-source="http://localhost:5000/api/branches/122/customers"
+                                    data-valueKey="customer_id"
+                                    data-displayKey="customer_name">
                                 </select>
                             </div>
 
@@ -58,7 +63,7 @@
                                     <tr>
                                         <th>Transaction date</th>
                                         <th>Transaction reference</th>
-                                        <th>Transaction Ammount</th>
+                                        <th>Transaction Amount</th>
                                         <th>Transaction Comment</th>
                                         <th>Running balance</th>
                                     </tr>
@@ -67,7 +72,7 @@
                                     <tr>
                                         <th>Transaction date</th>
                                         <th>Transaction reference</th>
-                                        <th>Transaction Ammount</th>
+                                        <th>Transaction Amount</th>
                                         <th>Transaction Comment</th>
                                         <th>Running balance</th>
                                     </tr>
@@ -83,7 +88,5 @@
 {% endblock content %}
 
 {% block javascripts %}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/static/assets/js/scripts.js"></script>
 
 {% endblock javascripts %}
