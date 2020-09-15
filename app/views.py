@@ -957,10 +957,24 @@ def SetCustomerTrans():
         conn.commit()
 
 
-        conn.close()
-        myList = {"customer_id" : customer_id}
+        qry="select * from customer where customer_id='" + customer_id + "'"
+        c.execute(qry)
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
 
-        return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+        if trans_type_id=="1":
+            for d in r:
+                if d['isbranch']=="Y": #branch
+                    if d['fbranch']>0:
+                        qry ="INSERT INTO trans_file (trans_id,trans_date,trans_reference,branch_id,trans_type_id,uom_code,trans_quantity,trans_base_quantity,batch_no,trans_comment,product_id,location_product_id,complete,cancelled,supplier_id,location_id,del_note,inv_no,lpo_no,cost_price,running_balance,confirmed,batch_id,updated,track_no,packaging_runbal,packaging,created_by,updated_by,created_on,updated_on,sprice,lpono,tran_discount,grn_no,ln) select "
+		                qry = qry + " uuid(),now(),'tr-' + trans_reference,"+ str(d['fbranch']) +",2,uom_code,trans_quantity,trans_base_quantity,batch_no,trans_comment,product_id,location_product_id,0,cancelled,null,'',del_note,inv_no,lpo_no,cost_price,0,0,batch_id,"
+		                qry = qry + "'N',track_no,0,packaging,'','',now(),now(),sprice,lpono,tran_discount,grn_no,ln from trans_file where trans_reference='"+ transaction_ref +"';"
+
+        conn.close()
+        #myList = {"customer_id" : customer_id}
+
+        return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
               
@@ -1038,10 +1052,16 @@ def SetCustomer():
         c.execute(qry)
         conn.commit()
 
-        conn.close()
-        myList = {"customer_id" : customer_id}
+        qry="select * from customer where customer_id='" + customer_id + "'"
+        c.execute(qry)
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
 
-        return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+        conn.close()
+        #myList = {"customer_id" : customer_id}
+
+        return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
 
@@ -1249,7 +1269,7 @@ def SetBill():
             qry=qry + "total_vat, total_cat_levy, receipt_cash_amount, receipt_cheque_amount, receipt_card_amount, receipt_voucher_amount,"
             qry=qry + "receipt_mobile_money, branch_id, location_id, staff_id, till_id, shift_id, cancelled, table_id, Customer_id, receipt_paid, "
             qry=qry + "customer_alias, stype, dlocation, Sales_staff_id, receipt_code, comments, receipt_discount, updated) VALUES "
-            qry=qry + "('"+ tReceiptId +"', '', curdate(), curtime(), " + str(sTotalAmount) + ","
+            qry=qry + "('"+ tReceiptId +"', 'On-'+trim(update parameter_file set updated='N' and invoice_no=invoice_no+1 where branch_id="+ str(sBranchId) +";select invoice_no from parameter_file where branch_id="+ str(sBranchId) +"), curdate(), curtime(), " + str(sTotalAmount) + ","
             qry=qry + str(vat1) + ", " + str(vat2) +", 0, 0, 0, 0, 0,"
             qry=qry + str(sBranchId) + ", '" + sLocationId + "', '" + sStaffId + "', '" + sTillId + "', '" + sShiftId + "', 'N', '" + sTableId + "', null, 'N', "
             qry=qry + "'', '', '', '" + sStaffId + "', '', '', 0, 'N')"
