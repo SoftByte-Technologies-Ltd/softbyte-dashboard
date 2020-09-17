@@ -966,10 +966,14 @@ def SetCustomerTrans():
         if trans_type_id=="1":
             for d in r:
                 if d['isbranch']=="Y": #branch
-                    if d['fbranch']>0:
-                        qry ="INSERT INTO trans_file (trans_id,trans_date,trans_reference,branch_id,trans_type_id,uom_code,trans_quantity,trans_base_quantity,batch_no,trans_comment,product_id,location_product_id,complete,cancelled,supplier_id,location_id,del_note,inv_no,lpo_no,cost_price,running_balance,confirmed,batch_id,updated,track_no,packaging_runbal,packaging,created_by,updated_by,created_on,updated_on,sprice,lpono,tran_discount,grn_no,ln) select "
-		                qry = qry + " uuid(),now(),'tr-'+" + transaction_ref + "',"+ str(d['fbranch']) +",2,uom_code,trans_quantity,trans_base_quantity,batch_no,trans_comment,product_id,location_product_id,0,cancelled,null,'',del_note,inv_no,lpo_no,cost_price,0,0,batch_id,"
-		                qry = qry + "'N',track_no,0,packaging,'','',now(),now(),sprice,lpono,tran_discount,grn_no,ln from trans_file where trans_reference='"+ transaction_ref +"';"
+                    if int(d['fbranch']) > 0 :
+                        qry = "INSERT INTO trans_file (trans_id,trans_date,trans_reference,branch_id,trans_type_id,uom_code,trans_quantity,trans_base_quantity,"
+                        qry = qry + "batch_no,trans_comment,product_id,location_product_id,complete,cancelled,supplier_id,location_id,del_note,inv_no,lpo_no,"
+                        qry = qry + "cost_price,running_balance,confirmed,batch_id,updated,track_no,packaging_runbal,packaging,created_by,updated_by,created_on,"
+                        qry = qry + "updated_on,sprice,lpono,tran_discount,grn_no,ln) select "
+                        qry = qry + " uuid(),now(),'tr-'+" + transaction_ref + "',"+ str(d['fbranch']) +",2,uom_code,trans_quantity,trans_base_quantity,batch_no,"
+                        qry = qry + "trans_comment,product_id,location_product_id,0,cancelled,null,'',del_note,inv_no,lpo_no,cost_price,0,0,batch_id,"
+                        qry = qry + "'N',track_no,0,packaging,'','',now(),now(),sprice,lpono,tran_discount,grn_no,ln from trans_file where trans_reference='"+ transaction_ref +"';"
 
         conn.close()
         #myList = {"customer_id" : customer_id}
