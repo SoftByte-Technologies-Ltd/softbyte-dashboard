@@ -486,6 +486,29 @@ def index_supplier_transactions(id):
 # def hello_world():
 #     return 'Hello from Flask!'
 
+@app.route('/LocationStockEnquiries', methods= ['POST','GET'])
+def LocationStockEnquiries():
+    if request.method == "POST":
+        fromDate = request.form['from']
+        toDate = request.form['to']
+        branch_id = request.form['branch_id']
+        product_id = request.form['product_id']
+        location_id = request.form['location_id']
+        conn = connection()
+        c = conn.cursor()
+        qry="select ts.*,s.supplier_name, CONCAT(st.staff_sir_name,' ',st.staff_other_names) as names, case when tt.trans_type_sign='+' then ts.trans_quantity else 0 end as qty_in, case when tt.trans_type_sign='-' then ts.trans_quantity else 0 end as qty_out from trans_file ts left join supplier s on(s.supplier_id=ts.supplier_id), trans_type tt,staff st where st.staff_id=ts.created_by and tt.trans_type_id=ts.trans_type_id and ts.trans_date >='" + str(fromDate) + "' and ts.trans_date <='"+ str(toDate) + "' and ts.location_id='" + str(location_id) + "' and ts.branch_id="+ str(branch_id)
+        c.execute(qry)
+
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
+
+        conn.close()
+        return json.dumps({'result':r,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+
 @app.route('/GetUserByCard', methods= ['POST','GET'])
 def UserByCard():
     if request.method == "POST":
@@ -502,6 +525,108 @@ def UserByCard():
 
         conn.close()
         return json.dumps({'result':r,"error":False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+@app.route('/SetParameterFile', methods= ['POST','GET'])
+def SetParameterFile():
+    if request.method == "POST":
+        branch_id = request.form['branch_id']
+        lpo_no = request.form['lpo_no']
+        quote_no = request.form['quote_no']
+        invoice_no = request.form['invoice_no']
+        expence_no = request.form['expence_no']
+        foliono = request.form['foliono'] 
+        customerno = request.form['customerno']
+        supplierno = request.form['supplierno']
+        grn_no = request.form['grn_no']
+        categoryno = request.form['categoryno']
+        jobno = request.form['jobno']
+        staffno = request.form['staffno']
+
+        conn = connection()
+        c = conn.cursor()
+
+        qry="update parameter_file set updated='N',lpo_no=lpo_no+"+ lpo_no +",quote_no=quote_no+"+ quote_no +" ,staffno=staffno +" +staffno
+        qry=qry + " ,invoice_no=invoice_no+"+ invoice_no +",expence_no=expence_no+"+ expence_no +" ,foliono=foliono+"+ foliono +",customerno=customerno+"+ customerno +" "
+        qry=qry + " ,supplierno=supplierno+"+ supplierno +",grn_no=grn_no+"+ grn_no +" ,categoryno=categoryno+"+ categoryno +",jobno=jobno+"+ jobno +" "
+        qry=qry + " where branch_id=" + branch_id + ";"
+        c.execute(qry)
+        conn.commit()   
+
+        qry = "select * from parameter_file where branch_id=" + branch_id + ";"
+        c.execute(qry)
+        
+
+        r = []
+        r = [dict((c.description[i][0], value) \
+            for i, value in enumerate(row)) for row in c.fetchall()]
+
+        conn.close()
+        return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+
+        conn.close()
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+@app.route('/SetTransFile', methods= ['POST','GET'])
+def SetTransFile():
+    if request.method == "POST":
+        products = request.form['products']
+        batchItems = request.form['batchItems']
+
+        for product in products:
+            trans_reference = product['trans_reference']
+            trans_type_id = product['trans_type_id']
+            batch_no = product['batch_no']
+            sProductId = product['location_product_id']
+            sBranchId = product['branch_id']
+            sBranchId2 = product['branch_id2']
+            sPrice = product['product_sp']
+            sQty = product['trans_quantity']
+            sFootnote = product['comment']
+            staff_id = product['staff_id']
+            tran_discount = product['tran_discount']
+            lpono = product['lpono']
+            ln = product['ln']
+            track_no = product['track_no']
+
+            conn = connection()
+            c = conn.cursor()
+
+            qry="update location_stock set updated='N',location_product_quantity=location_product_quantity+"+ sQty +" where location_product_id='" + sProductId + "'; select * from location_stock where location_product_id='" + sProductId + "';"
+            c.execute(qry)       
+            data = c.fetchall()    
+
+            trans_id = str(uuid.uuid4())
+
+            qry="INSERT INTO trans_file(trans_id, trans_date, trans_reference, branch_id, trans_type_id, uom_code, trans_quantity, trans_base_quantity, batch_no, "
+            qry=qry + "trans_comment, Product_id, location_product_id, complete, cancelled, supplier_id, location_id, del_note, inv_no, lpo_no, cost_price, running_balance, "
+            qry=qry + "confirmed, batch_id, updated,packaging_runbal,packaging,created_by,created_on,updated_by,updated_on,sprice,lpono,tran_discount,grn_no,ln,track_no) VALUES "
+            qry=qry + "('"+trans_id+"', now(), '"+ trans_reference +"', " + sBranchId + ", "+ trans_type_id +", (select uom_code from location_stock where location_product_id='" + sProductId+ "'), "+ sQty +", "+ sQty +", '"+ batch_no +"', "
+            qry=qry + "'', '" + r[1]+ "', null, 'Y', 'N', null, '" + r[6]+ "', '', '', '', 0, " + str(r[3])+ ", "
+            qry=qry + "'Y', null, 'N',0,0,(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),(select staff_id from pos_receipts where receipt_id='"+sReceiptId+"'),now(),"+ sPrice +",'"+ lpono +"',"+ str(tran_discount) +",0,"+str(ln)+",'"+ track_no +"')"
+
+            c.execute(qry)
+            conn.commit()
+            
+            if sBranchId2 > 0:
+                if trans_type_id in (6,19):
+                        qry="INSERT INTO trans_file(trans_id, trans_date, trans_reference, branch_id, trans_type_id, uom_code, trans_quantity, trans_base_quantity, batch_no, "
+                        qry=qry + "trans_comment, Product_id, location_product_id, complete, cancelled, supplier_id, location_id, del_note, inv_no, lpo_no, cost_price, running_balance, "
+                        qry=qry + "confirmed, batch_id, updated,packaging_runbal,packaging,created_by,created_on,updated_by,updated_on,sprice,lpono,tran_discount,grn_no,ln,track_no) VALUES "
+                        qry=qry + " select uuid(), trans_date, trans_reference, " + sBranchId2 + ", 5, uom_code, trans_quantity, trans_base_quantity, batch_no, "
+                        qry=qry + "trans_comment, Product_id, location_product_id, 0, cancelled, supplier_id, location_id, del_note, inv_no, lpo_no, cost_price, running_balance, "
+                        qry=qry + "confirmed, batch_id, 'N',packaging_runbal,packaging,created_by,created_on,updated_by,updated_on,sprice,lpono,tran_discount,grn_no,ln,track_no from trans_file where trans_id = '"+ trans_id +"'"
+
+            conn.close()
+            pass
+
+
+
+        myList = {"Completed" :  'Sucessfully'}
+
+        return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
 
@@ -847,6 +972,28 @@ def GetReceipt():
         conn = connection()
         c = conn.cursor()
         qry="select pr.*,t.table_description from pos_receipts pr left join tables t on (pr.table_id=t.table_id) where pr.receipt_id='"+sReceiptId+"'"
+        c.execute(qry)
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
+
+        conn.close()
+        return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+
+@app.route('/GetReceiptByDateTill', methods= ['POST','GET'])
+def GetReceiptByDateTill():
+    if request.method == "POST":
+        sDate = request.form['sdate']
+        tillId = request.form['till_id']
+        branchId = request.form['branch_id']
+
+        conn = connection()
+        c = conn.cursor()
+        qry="select pr.*,t.table_description from pos_receipts pr left join tables t on (pr.table_id=t.table_id) where pr.shift_id in "
+        qry = qry + "(select shift_id from shift where sdate='"+sDate+"' and till_id='"+tillId+" and branchId='"+branchId+"')"
         c.execute(qry)
         r = []
         r = [dict((c.description[i][0], value) \
@@ -1263,6 +1410,23 @@ def SetBill():
         myList = {"receipt_id" : tReceiptId}
 
         return json.dumps({'result': myList, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
+    else:
+        return json.dumps({'result':"Invalid method",'error':True})
+
+@app.route('/GetCustomer', methods= ['POST','GET'])
+def GetCustomer():
+    if request.method == "POST":
+        iCustomerId = request.form['customerid']
+        conn = connection()
+        c = conn.cursor()
+        qry="select * from customer where active='Y' and customer_id='" + iCustomerId + "'"
+        c.execute(qry)
+        r = []
+        r = [dict((c.description[i][0], value) \
+                for i, value in enumerate(row)) for row in c.fetchall()]
+
+        conn.close()
+        return json.dumps({'result': r, "error": False}, use_decimal=True)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
 
