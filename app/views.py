@@ -1128,24 +1128,7 @@ def SetCustomerTrans():
         return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
     else:
         return json.dumps({'result':"Invalid method",'error':True})
-              
-@app.route('/GetCustomer', methods= ['POST','GET'])
-def GetCustomer():
-    if request.method == "POST":
-        sCustomerId = request.form['customer_id']
-        conn = connection()
-        c = conn.cursor()
-        qry="select * from customer where active='Y' and customer_id='" + sCustomerId + "'"
-        c.execute(qry)
-        r = []
-        r = [dict((c.description[i][0], value) \
-                for i, value in enumerate(row)) for row in c.fetchall()]
-
-        conn.close()
-        return json.dumps({'result': r, "error": False}, use_decimal=True, indent=4, sort_keys=True, default=str)
-    else:
-        return json.dumps({'result':"Invalid method",'error':True})
-
+        
 @app.route('/SetShift', methods= ['POST','GET'])
 def SetShift():
     if request.method == "POST":
