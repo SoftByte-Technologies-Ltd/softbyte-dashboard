@@ -517,7 +517,6 @@ def UserByCard():
         conn = connection()
         c = conn.cursor()
         qry="select su.*,CONCAT(s.staff_sir_name,' ',s.staff_other_names) as names,sh.shift_id from sys_user su,staff s left join shift sh on (sh.branch_id=s.branch_id and sh.shift_complete='N') where  su.staff_id=s.staff_id and su.card_details='" + getMD5(sCardDetails) + "' and su.branch_id="+ str(branch_id)
-        return qry
         c.execute(qry)
 
         r = []
